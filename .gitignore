@@ -1,0 +1,5 @@
+/convert_folder/*
+!.gitkeep
+
+/mcsfile_folder/*
+!.gitkeep
