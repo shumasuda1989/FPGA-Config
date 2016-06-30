@@ -3,7 +3,7 @@
 #define RBCP_DISP_MODE_DEBUG 2
 #include "rbcp_com.h"
 
-int rbcp_com(const char* ipAddr, unsigned int port, struct rbcp_header* sendHeader, char* sendData, char* recvData, char dispMode, bool check){
+int rbcp_com(const char* ipAddr, unsigned int port, struct rbcp_header* sendHeader, char* sendData, char* recvData, char dispMode){
 
    struct sockaddr_in sitcpAddr;
    int sock;
@@ -104,17 +104,11 @@ int rbcp_com(const char* ipAddr, unsigned int port, struct rbcp_header* sendHead
 	  return -1;
 	}
 
-	if(check)  // Shu added
-	  if((0xff & rcvdBuf[2])!=0x01){
-	    puts("ERROR: Detected bus error");
-	    close(sock);
-	    return -1;
-	  }       // END Shu added
-
 	rcvdBuf[rcvdBytes]=0;
 
 	if(RBCP_CMD_RD){
-	  memcpy(recvData,rcvdBuf+sizeof(struct rbcp_header),rcvdBytes-sizeof(struct rbcp_header));
+	  //memcpy(recvData,rcvdBuf+sizeof(struct rbcp_header),rcvdBytes-sizeof(struct rbcp_header));
+	  memcpy(recvData,rcvdBuf,rcvdBytes); //Shu changed
 	}
 
 	if(dispMode==RBCP_DISP_MODE_DEBUG){

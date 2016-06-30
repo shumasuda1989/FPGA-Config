@@ -42,27 +42,33 @@ void wren_cmd(const char *ip_addr, unsigned int port)
   int rcvdBytes;
   rcvdBytes= rbcp_com(ip_addr, port, &sndHeader, sendData, recvData, dispMode);
 
-  if(rcvdBytes<0) exit(EXIT_FAILURE);
-   
-  if ( (recvData[1] & 0x0F) != 0x08 ) {
+  if(rcvdBytes<0){
     cerr << "Receive Error (wren_cmd)" << endl;
-    exit(-1);
+    exit(EXIT_FAILURE);
   }
+   
+  // if ( (recvData[1] & 0x0F) != 0x08 ) {
+  //   cerr << "Receive Error (wren_cmd)" << endl;
+  //   exit(-1);
+  // }
    
   sndHeader.id=1;
   sndHeader.length=1;
   sndHeader.address=htonl(0x0000000B); //rbcp address
 
-  sendData[0]= (char)(0xFF & 0);
+  sendData[0]= (char)0;
 
   rcvdBytes= rbcp_com(ip_addr, port, &sndHeader, sendData, recvData, dispMode);
 
-  if(rcvdBytes<0) exit(EXIT_FAILURE);
-   
-  if ( (recvData[1] & 0x0F) != 0x08 ) {
+  if(rcvdBytes<0){
     cerr << "Receive Error (wren_cmd)" << endl;
-    exit(-1);
+    exit(EXIT_FAILURE);
   }
+
+  // if ( (recvData[1] & 0x0F) != 0x08 ) {
+  //   cerr << "Receive Error (wren_cmd)" << endl;
+  //   exit(-1);
+  // }
 
   if ( (recvData[2] & 0x0F) != 0x01 ) {
     cerr << "Receive Error (wren_cmd)" << endl;

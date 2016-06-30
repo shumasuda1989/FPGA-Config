@@ -40,12 +40,15 @@ int filedata_to_buf(const char *ip_addr, unsigned int port, const char *filename
       int rcvdBytes;
       rcvdBytes= rbcp_com(ip_addr, port, &sndHeader, read_data, recvData, dispMode);
 
-      if(rcvdBytes<0) exit(EXIT_FAILURE);
-
-      if ( (recvData[1] & 0x0F) != 0x08 ) {
+      if(rcvdBytes<0){
 	cerr << "Receive Error (filedata_to_buf)" << endl;
-	exit(-1);
+	exit(EXIT_FAILURE);
       }
+
+      // if ( (recvData[1] & 0x0F) != 0x08 ) {
+      // 	cerr << "Receive Error (filedata_to_buf)" << endl;
+      // 	exit(-1);
+      // }
     }
    
   file.close();

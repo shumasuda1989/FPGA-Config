@@ -30,7 +30,7 @@ struct rbcp_header{
   unsigned int address;
 };
 
-int rbcp_com(const char* ipAddr, unsigned int port, struct rbcp_header* sendHeader, char* sendData, char* recvData, char dispMode=1, bool check=false);
+int rbcp_com(const char* ipAddr, unsigned int port, struct rbcp_header* sendHeader, char* sendData, char* recvData, char dispMode);
 
 
 #ifdef __cplusplus

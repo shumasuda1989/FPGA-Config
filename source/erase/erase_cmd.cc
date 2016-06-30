@@ -32,12 +32,15 @@ void erase_cmd(const char *ip_addr, unsigned int port)
   int rcvdBytes;
   rcvdBytes= rbcp_com(ip_addr, port, &sndHeader, sendData, recvData, dispMode);
 
-  if(rcvdBytes<0) exit(EXIT_FAILURE);
-   
-  if ( (recvData[1] & 0x0F) != 0x08 ) {
-    cerr << "Receive Error (write_spi_cmd)" << endl;
-    exit(-1);
+  if(rcvdBytes<0) {
+    cerr << "Receive Error (erase_cmd)" << endl;
+    exit(EXIT_FAILURE);
   }
+
+  // if ( (recvData[1] & 0x0F) != 0x08 ) {
+  //   cerr << "Receive Error (erase_cmd)" << endl;
+  //   exit(-1);
+  // }
 
 
 }

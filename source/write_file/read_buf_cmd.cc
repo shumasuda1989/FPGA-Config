@@ -25,21 +25,23 @@ void read_buf_cmd(const char *ip_addr, unsigned int port, char *status_list, boo
   int rcvdBytes;
   rcvdBytes= rbcp_com(ip_addr, port, &sndHeader, sendData, recvData, dispMode);
 
-  if(rcvdBytes<0) exit(EXIT_FAILURE);
-   
+  if(rcvdBytes<0){
+    cerr << "Receive Error (read_buf_cmd)" << endl;
+    exit(EXIT_FAILURE);
+  }
+
   // if ( (recvData[1] & 0x0F) != 0x08 ) {
-  //   cerr << "Receive Error (read_buf_cmd_not_print)" << endl;
+  //   cerr << "Receive Error (read_buf_cmd)" << endl;
   //   exit(-1);
   // }
 
   if( showprint )
-    //for(int j=8; j<8+recvData[3]; j++)
-    for(int j=0; j<  recvData[3]; j++)
+    for(int j=8; j<8+recvData[3]; j++)
       {
 	if (j % 8 == 7) 
 	  printf("0x%.2x\n",(unsigned char)recvData[j]);
 	else 
-	  printf("0x%.2x",(unsigned char)recvData[j]);
+	  printf("0x%.2x ",(unsigned char)recvData[j]);
       }
 
   status_list[0]=recvData[8];

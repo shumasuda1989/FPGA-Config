@@ -25,12 +25,15 @@ void read_buf_to_file(const char *ip_addr, unsigned int port, unsigned int buf_a
   int rcvdBytes;
   rcvdBytes= rbcp_com(ip_addr, port, &sndHeader, sendData, recvData, dispMode);
 
-  if(rcvdBytes<0) exit(EXIT_FAILURE);
-   
-  if ( (recvData[1] & 0x0F) != 0x08 ) {
+  if(rcvdBytes<0){
     cerr << "Receive Error (read_buf_to_file)" << endl;
-    exit(-1);
-  }
+    exit(EXIT_FAILURE);
+  }   
+
+  // if ( (recvData[1] & 0x0F) != 0x08 ) {
+  //   cerr << "Receive Error (read_buf_to_file)" << endl;
+  //   exit(-1);
+  // }
 
   ofstream file(filename,ios::out|ios::binary|ios::app);
 
@@ -40,3 +43,19 @@ void read_buf_to_file(const char *ip_addr, unsigned int port, unsigned int buf_a
   file.close();
 
 }
+
+#ifdef TEST_READ_BUF_TO_FILE
+
+int main(int argc,char **argv)
+{
+  if (argc != 6) {
+    cerr << "Usage: "<< argv[0] << " <IP> <port> <conv file name> <read point>" <<endl;
+    return 1;
+  }
+  read_buf_to_file(argv[1], atoi(argv[2]), atoi(argv[3]), atoi(argv[4]), argv[5]);
+
+  return 0;
+
+}
+
+#endif
