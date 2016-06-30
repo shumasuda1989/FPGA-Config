@@ -62,3 +62,19 @@ void erase_spi(const char *ip_addr, unsigned int port)
     }
 
 }
+
+#ifdef TEST_ERASE
+
+int main(int argc, char **argv)
+{
+  if (argc != 3) {
+    cerr << "Usage: "<< argv[0] << " <IP> <port>" <<endl;
+    return 1;
+  }
+
+  erase_spi(argv[1],atoi(argv[2]));
+  return 0;
+
+}
+
+#endif

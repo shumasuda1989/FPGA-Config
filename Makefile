@@ -16,6 +16,7 @@ SUBSUBSRC = erase_cmd \
             status_cmd \
             wren_cmd \
             write_spi_cmd
+
 RBCP = rbcp_com
 
 
@@ -39,8 +40,16 @@ all: dep $(TARGET)
 $(TARGET): % : %.o $(SUBOBJS) $(SUBSUBOBJS) $(RBCPOBJ)
 	$(CXX) $(CXXFLAGS) $^ $(LIBS) -o $@
 
+$(SUBTARGET): % : %.o $(SUBSUBOBJS) $(RBCPOBJ)
+	if [ -z "$(EXTDEF)" ]; then echo ""; echo CANNOT MAKE; else \
+   $(CXX) $(CXXFLAGS) $(EXTDEF) $^ $(LIBS) -o $@; fi
+
+$(SUBSUBSRC): % : %.cc $(RBCPOBJ)
+	if [ -z "$(EXTDEF)" ]; then echo ""; echo CANNOT MAKE; else \
+   $(CXX) $(CXXFLAGS) $(EXTDEF) $< $(RBCPOBJ) $(LIBS) -o $@; fi
+
 .cc.o :
-	$(CXX) $(CXXFLAGS) -c $<
+	$(CXX) $(CXXFLAGS) $(EXTDEF) -c $<
 
 .c.o:
 	$(CC) $(CXXFLAGS) -c $<
@@ -51,7 +60,9 @@ dep: $(TARGETSRC) $(SUBSRCS) $(SUBSUBSRCS) $(RBCPSRC)
 -include dep.d
 
 clean:
-	$(RM) $(TARGET) $(SUBTARGET) *.o $(DEP) *~
+	$(RM) $(TARGET) $(SUBTARGET) $(SUBSUBSRC) *.o $(DEP) *~
 
 echo:
 	@echo $(CXXFLAGS)
+
+.PHONY: all clean echo
