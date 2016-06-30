@@ -70,8 +70,12 @@ void wren_cmd(const char *ip_addr, unsigned int port)
   //   exit(-1);
   // }
 
-  if ( (recvData[2] & 0x0F) != 0x01 ) {
-    cerr << "Receive Error (wren_cmd)" << endl;
+  if ( (recvData[2] & 0xFF) != 0x01 ) {
+    ofstream fout("Error_wren_cmd.dat",ios::out|ios::binary);
+    for(int j=0;j<rcvdBytes;j++)
+      fout.write(&recvData[j],1);
+    fout.close();
+    cerr << "Receive Error 2 (wren_cmd)" << endl;
     exit(-1);
   }
 

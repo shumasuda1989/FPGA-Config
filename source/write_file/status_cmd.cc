@@ -62,7 +62,11 @@ void status_cmd(const char *ip_addr, unsigned int port)
   // }
 
   if ( (recvData[2] & 0xFF) != 0x01 ) {
-    cerr << "Receive Error (status_cmd)" << endl;
+    ofstream fout("Error_status_cmd.dat",ios::out|ios::binary);
+    for(int j=0;j<rcvdBytes;j++)
+      fout.write(&recvData[j],1);
+    fout.close();
+    cerr << "Receive Error 2 (status_cmd)" << endl;
     exit(-1);
   }
 
