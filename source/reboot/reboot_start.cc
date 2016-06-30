@@ -10,7 +10,7 @@ void reboot_start(const char *ip_addr, unsigned int port)
 
   char sendData[UDP_BUF_SIZE]; 
   char recvData[UDP_BUF_SIZE];
-  char dispMode=0;
+  char dispMode=3;
   //unsigned int tempInt;
 
   struct rbcp_header sndHeader;

@@ -69,6 +69,7 @@ int rbcp_com(const char* ipAddr, unsigned int port, struct rbcp_header* sendHead
   
   if(dispMode==RBCP_DISP_MODE_DEBUG) puts("\nWait to receive the ACK packet...");
 
+  if(dispMode==3) return 0; //Shu added
 
   while(numReTrans<3){
 

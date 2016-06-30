@@ -40,13 +40,17 @@ all: dep $(TARGET)
 $(TARGET): % : %.o $(SUBOBJS) $(SUBSUBOBJS) $(RBCPOBJ)
 	$(CXX) $(CXXFLAGS) $^ $(LIBS) -o $@
 
-$(SUBTARGET): % : %.o $(SUBSUBOBJS) $(RBCPOBJ)
+$(SUBTARGET): % : %.cc $(SUBSUBOBJS) $(RBCPOBJ)
 	if [ -z "$(EXTDEF)" ]; then echo ""; echo CANNOT MAKE; else \
    $(CXX) $(CXXFLAGS) $(EXTDEF) $^ $(LIBS) -o $@; fi
 
 $(SUBSUBSRC): % : %.cc $(RBCPOBJ)
 	if [ -z "$(EXTDEF)" ]; then echo ""; echo CANNOT MAKE; else \
    $(CXX) $(CXXFLAGS) $(EXTDEF) $< $(RBCPOBJ) $(LIBS) -o $@; fi
+
+### If you want to make only a part of the TARGET binary, 
+### execute "make srcname EXTDEF=-D(macro)" 
+###    e.g.: make reboot_start EXTDEF=-DTEST_REBOOT
 
 .cc.o :
 	$(CXX) $(CXXFLAGS) $(EXTDEF) -c $<

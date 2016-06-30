@@ -1,5 +1,5 @@
 
-// read_buf_cmd_not_print
+// read_buf_cmd
 
 #include "rbcp_com.h"
 #include "read_buf_cmd.h"
@@ -35,8 +35,10 @@ void read_buf_cmd(const char *ip_addr, unsigned int port, char *status_list, boo
   //   exit(-1);
   // }
 
+  int datasize=(unsigned char)recvData[3];
+
   if( showprint )
-    for(int j=8; j<8+recvData[3]; j++)
+    for(int j=8; j<8+datasize; j++)
       {
 	if (j % 8 == 7) 
 	  printf("0x%.2x\n",(unsigned char)recvData[j]);
@@ -57,9 +59,9 @@ int main(int argc, char **argv)
     cerr << "Usage: "<< argv[0] << " <IP> <port> <buf_addr>" <<endl;
     return 1;
   }
-  char *temp[2];
+  char temp[2];
 
-  read_buf_cmd_not_print(argv[1], atoi(argv[2]), temp, true, atoi(argv[3]));
+  read_buf_cmd(argv[1], atoi(argv[2]), temp, true, atoi(argv[3]));
 
   printf("%.2x %.2x\n",(unsigned char)temp[0],(unsigned char)temp[1]);
 

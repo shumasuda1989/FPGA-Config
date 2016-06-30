@@ -45,7 +45,7 @@ int write_file_to_spi(const char *ip_addr, unsigned int port, const char *filena
 	  status_cmd(ip_addr, port);
          
 	  char status_list[2];
-	  read_buf_cmd(ip_addr, port, status_list, false, 8);
+	  read_buf_cmd(ip_addr, port, status_list, false, 0x800, 8);
 
 	  if (status_list[0]!=0x0) 
             not_wren_counter ++;

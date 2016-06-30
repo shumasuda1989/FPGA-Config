@@ -43,7 +43,7 @@ int main()
   cout << "config start" << endl;
 
   time_t start_d = time(0);
-   
+
   string convert_judge;
   cout << "Do you pass convert? (No/Yes) : " << flush;
  ERROR_1:
@@ -57,11 +57,14 @@ int main()
     cout << "please input Yes or No : " << flush;
     goto ERROR_1;
   }
-  
+  cout << "Erase start" << endl;
   erase_spi(ip_addr.c_str(), udpport);
 
+  cout << "Write Start" <<endl;
   int write_file_size = write_file_to_spi(ip_addr.c_str(), udpport, mcsfile.c_str());
+  cout << "Write Finished" <<endl;
 
+  cout << "Verify Start" << endl;
   spi_verify(ip_addr.c_str(), udpport, write_file_size, mcsfile.c_str());
 
   string reboot_judge;
@@ -82,8 +85,8 @@ int main()
   cout << "Please wait until FPGA reboot finished." << endl;
 
   time_t end_d = time(0);
-  cout << "start: " << ctime(&start_d) << endl;
-  cout << "end:   " << ctime(&end_d) << endl;
+  cout << "start: " << ctime(&start_d) << flush;
+  cout << "end:   " << ctime(&end_d) << flush;
 
 }
 

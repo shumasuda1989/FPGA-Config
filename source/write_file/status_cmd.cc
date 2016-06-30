@@ -42,10 +42,10 @@ void status_cmd(const char *ip_addr, unsigned int port)
   //   exit(-1);
   // }
 
-  sndHeader.command= RBCP_CMD_RD;
+  sndHeader.command= RBCP_CMD_WR;
   sndHeader.id=1;
   sndHeader.length=1;
-  sndHeader.address=htonl(0x00000005); //rbcp address
+  sndHeader.address=htonl(0x0000000B); //rbcp address
   
   sendData[0]=(char)0x00;
    

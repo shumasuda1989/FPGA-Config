@@ -37,7 +37,9 @@ void read_buf_to_file(const char *ip_addr, unsigned int port, unsigned int buf_a
 
   ofstream file(filename,ios::out|ios::binary|ios::app);
 
-  for(int j=8;j<8+recvData[3];j++)
+  int datasize=(unsigned char)recvData[3];
+
+  for(int j=8;j<8+datasize;j++)
     file.write(&recvData[j],1);
 
   file.close();
@@ -49,7 +51,7 @@ void read_buf_to_file(const char *ip_addr, unsigned int port, unsigned int buf_a
 int main(int argc,char **argv)
 {
   if (argc != 6) {
-    cerr << "Usage: "<< argv[0] << " <IP> <port> <conv file name> <read point>" <<endl;
+    cerr << "Usage: "<< argv[0] << " <IP> <port> <rbcp addr> <data length> <output file>" <<endl;
     return 1;
   }
   read_buf_to_file(argv[1], atoi(argv[2]), atoi(argv[3]), atoi(argv[4]), argv[5]);
