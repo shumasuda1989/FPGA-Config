@@ -70,7 +70,7 @@ void wren_cmd(const char *ip_addr, unsigned int port)
   //   exit(-1);
   // }
 
-  if ( (recvData[2] & 0xFF) != 0x01 ) {
+  if ( recvData[2] != sndHeader.id ) { //check received RBCP ID
     ofstream fout("Error_wren_cmd.dat",ios::out|ios::binary);
     for(int j=0;j<rcvdBytes;j++)
       fout.write(&recvData[j],1);

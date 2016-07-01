@@ -71,14 +71,23 @@ int rbcp_com(const char* ipAddr, unsigned int port, struct rbcp_header* sendHead
 
   if(dispMode==3) return 0; //Shu added
 
-  while(numReTrans<3){
+  int maxRT=4; //Shu added
+  while(numReTrans<maxRT){
 
     FD_ZERO(&setSelect);
     FD_SET(sock, &setSelect);
 
     timeout.tv_sec  = 2;//changed from 1 by Shu
     timeout.tv_usec = 0;
- 
+
+    if(numReTrans==0) ;
+    else if(numReTrans+1==2)
+      puts("***** 2nd Trial *****");
+    else if(numReTrans+1==3)
+      puts("***** 3rd Trial *****");
+    else if(numReTrans+1>=4)
+      printf("***** %dth Trial *****\n",numReTrans+1);
+
     if(select(sock+1, &setSelect, NULL, NULL,&timeout)==0){
       /* time out */
       puts("\n***** Timeout ! *****");
@@ -159,7 +168,7 @@ int rbcp_com(const char* ipAddr, unsigned int port, struct rbcp_header* sendHead
 	  /*   printf(" 0x%x: OK\n",ntohl(sendHeader->address)); */
 	  /* } */
 	}
-	numReTrans = 4;
+	numReTrans = maxRT+1;
 	close(sock);
 	return(rcvdBytes);
       }
