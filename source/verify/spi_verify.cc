@@ -10,8 +10,9 @@ using namespace std;
 void spi_verify(const char *ip_addr, unsigned int port, unsigned int file_size, const char *conv_file_name)
 {
 
-  char verfile[]="convert_folder/verify_file.txt";
-  ofstream file(verfile,ios::out|ios::binary|ios::trunc);
+  string verfile("convert_folder/verify_file_");
+  verfile+=ip_addr; verfile+=".txt";
+  ofstream file(verfile.c_str(),ios::out|ios::binary|ios::trunc);
   if(!file){
     cerr << "Cannot open "<< verfile << endl;
     return;
@@ -27,7 +28,7 @@ void spi_verify(const char *ip_addr, unsigned int port, unsigned int file_size, 
 
       usleep(5000);
 
-      read_buf_to_file(ip_addr, port,0x800,250,verfile);
+      read_buf_to_file(ip_addr, port,0x800,250,verfile.c_str());
 
       read_addr += 250;
 
@@ -41,7 +42,7 @@ void spi_verify(const char *ip_addr, unsigned int port, unsigned int file_size, 
     cerr << "Cannot open " << conv_source_file << endl;
     return;
   }
-  ifstream file2(verfile, ios::in | ios::binary);
+  ifstream file2(verfile.c_str(), ios::in | ios::binary);
 
   int byte_counter = 0;
 

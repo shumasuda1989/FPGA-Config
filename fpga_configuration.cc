@@ -14,7 +14,7 @@ using namespace std;
 template <typename T>
 vector<T> getlist(ifstream&);
 
-int main()
+int main(int argc, char **argv)
 {
   ifstream fin("config_folder/config_file.txt");
   if(!fin){
@@ -34,8 +34,15 @@ int main()
    
   unsigned int udpport = udpport_list[0];
    
+  string ip_addr;
+  if(argc==1)      ip_addr=ip_addr_list[0];
+  else if(argc==2) ip_addr=argv[1];
+  else {
+    cerr << "Usage: " << argv[0] << "(<IP address>)" << endl;
+    return 1;
+  }
   string mcsfile(mcsfile_list[0]); cout << mcsfile << endl;
-  string ip_addr(ip_addr_list[0]); cout << ip_addr << endl;
+  cout << ip_addr << endl;
   cout << udpport << endl;
    
   fin.close();
